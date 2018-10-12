@@ -1,0 +1,10 @@
+[environments]
+  [environments.production]
+    name = "pod-cleaner"
+    namespace = "bootstrap"
+    wait = true
+    watch = false
+    watch-delay = 2
+    auto-connect = false
+    dockerfile = "Dockerfile"
+    chart = "helm-charts/pod-cleaner"
