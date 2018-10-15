@@ -1,0 +1,7 @@
+activeDeadlineSeconds: 300
+schedule: '@hourly'
+
+image:
+  repository: tuannvm/pod-cleaner
+  tag: latest
+  pullPolicy: IfNotPresent

@@ -1,0 +1,26 @@
+apiVersion: batch/v2alpha1
+kind: CronJob
+metadata:
+  name: {{ template "fullname" . }}
+  labels: {{- include "labels.standard" . | nindent 4 }}
+spec:
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid
+  schedule: {{ .Values.schedule | quote }}
+  jobTemplate:
+    labels: {{- include "labels.standard" . | nindent 8 }}
+    spec:
+      activeDeadlineSeconds: {{ .Values.activeDeadlineSeconds }}
+      template:
+        metadata:
+          labels:
+            release: {{ .Release.Name | quote }}
+            app: {{ template "fullname" . }}
+        spec:
+          serviceAccountName: {{ template "fullname" . }}
+          containers:
+          - name: {{ template "fullname" . }}
+            imagePullPolicy: IfNotPresent
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          restartPolicy: OnFailure
